@@ -1,0 +1,431 @@
+# Demônios: Spanish text. Only the text: scenes, conditions and effects live in
+# demonios.yaml (see src/tools/languages.py). Options: at most 26 columns.
+
+game:
+  title: DEMONIOS
+  subtitle: según el cuento de Aluísio Azevedo (1893)
+  about: |
+    Aluísio Azevedo nació en São Luís, en el norte de Brasil, en 1857, y murió en Buenos Aires en 1913.
+    ---
+    Antes de ser escritor, fue caricaturista en los periódicos de Río de Janeiro. Con O Mulato (1881) y O Cortiço (1890), se convirtió en el gran nombre del naturalismo brasileño.
+    ---
+    Demônios salió en 1893, en un libro de cuentos. En él, el autor de novelas de costumbres imagina el fin del mundo visto desde un cuarto de pensión en Río.
+    ---
+    Fue uno de los fundadores de la Academia Brasileña de Letras y, desde 1895, cónsul de Brasil en varios países.
+
+interface:
+  start: Comenzar
+  credits: Péricles S. - 2026
+  continue: Continuar
+  end: Fin
+  end_big: F I N
+  no_exit: (sin salida)
+  inventory: Inventario
+  nothing: (nada)
+  closes: Fire 1 o 2 cierra
+  pause: Pausa
+  back_to_title: Volver al título
+  endings_seen: Finales vistos
+  about: Sobre el autor
+  back: Volver
+
+stopwords: ["el", "la", "los", "las", "un", "una", "de", "del", "en", "al", "a", "y", "que", "se", "con", "por", "para", "lo"]
+
+items:
+  RELOGIO: reloj de bolsillo
+  MANUSCRITO: manuscrito
+  LAMPIAO: lámpara de aceite
+  CHAVE: llave de Laura
+  RETRATO: retrato de Laura
+  PAO: pan
+
+endings:
+  F1: La Vela
+  F2: Solo
+  FA1: Última Luz
+  FA2: Silencio en la Sala
+  FB1: La Piedra y la Mano
+  FB2: El Mar Inmóvil
+  FC: La Última Palabra
+
+scenes:
+
+  quarto:
+    text: |
+      Desperté sin saber cuánto había dormido. Por las cortinas del mirador no entraba ningún día.
+      ---
+      El reloj de bolsillo marcaba medianoche. Me lo acerqué al oído: no latía. Le di cuerda, y volvió a latir, débil como un enfermo.
+    options:
+    - Releer lo que escribí ayer
+    - Ir a la ventana
+
+  lembranca:
+    text: |
+      Sobre la mesa, un montón de hojas cubiertas con mi letra. No recordaba haber escrito ninguna.
+      ---
+      Hablaban de una noche sin fin, de una ciudad muda, de Laura y de mí perdiendo las palabras una a una.
+      ---
+      Y se cortaban en medio de una frase.
+
+  janela:
+    text: |
+      Abrí el balcón. El oriente seguía cerrado y negro. Las estrellas habían palidecido; las farolas apenas se veían.
+      ---
+      Ni un obrero, ni un coche, ni un perro. Toqué la campanilla de la mesa: el sonido salió ahogado, como si el aire pesara.
+    options:
+    - Salir a ver qué pasó
+    - Esperar el día
+
+  espera:
+    variants:
+    - |
+      Las estrellas se deshacían en el cielo, como manchas. La vela menguaba. El día no llegaba.
+    text: |
+      Me senté en el balcón a esperar el sol. Mis violetas estaban marchitas. Ya no tenían perfume.
+    options:
+    - Esperar más
+    - Esperar más
+    - Salir a ver qué pasó
+
+  porta:
+    text: |
+      Ya en la puerta, miré atrás. En la cabecera de la cama, el retrato de Laura que yo había hecho al pastel, con un lazo en el pelo.
+    options:
+    - Llevar el retrato
+    - Dejar el retrato
+
+  f1_vela:
+    text: |
+      La llama tembló, se encogió y se apagó, como la última mirada de un moribundo.
+      ---
+      Me quedé a oscuras, pluma en mano, esperando un sol que no vino. Nadie subió la escalera. Nadie dijo mi nombre.
+
+  escada:
+    text: |
+      Bajé con la vela. En el segundo piso vivía un médico. Llamé; nadie respondió. Forcé la puerta.
+      ---
+      Estaba en la cama, rígido y frío, con los ojos entreabiertos. En las mejillas, las manchas verdes de quien empieza a pudrirse.
+    options:
+    - Bajar al zaguán
+
+  saguao:
+    text: |
+      En cada cuarto, un muerto: madres con los hijos en brazos, estudiantes caídos sobre los libros. Del fondo de la casa subía un olor a podredumbre.
+      ---
+      En la portería, el portero muerto aún sujetaba la llave que el padre de Laura me había dejado. Los dedos estaban duros en torno a ella.
+    options:
+    - Quitarle la llave
+    - Dejar la llave
+
+  rua:
+    text: |
+      La vela se apagó al primer paso. Tinieblas, solo tinieblas: ni una farola, ni una estrella.
+      ---
+      Seguí las paredes a tientas. En la esquina tropecé con un cuerpo apoyado en la reja de un jardín: un policía, ya frío y blando.
+    options:
+    - Ir directo a casa de Laura
+    - Atajar por la plaza
+
+  igreja:
+    text: |
+      Encontré a tientas la puerta de la iglesia. Fue allí, a la salida de la misa de un domingo, donde vi a Laura por primera vez. Yo iba junto a mi madre.
+      ---
+      Me quedé demasiado tiempo recordando. Al salir, la oscuridad parecía más espesa.
+    options:
+    - Seguir a casa de Laura
+
+  botica:
+    text: |
+      En la botica, el boticario estaba de pie tras el mostrador, con la mano tendida, como quien da el cambio.
+      ---
+      Comí lo que encontré, sin cubiertos, como un animal. En el mostrador, el pan de la casa y una lámpara con su lata de aceite. No podía llevarlo todo.
+    options:
+    - Llevar el pan
+    - Llevar la lámpara
+
+  botica_saida:
+    variants:
+    - |
+      Encendí la lámpara. La luz era lívida como un fuego fatuo, pero era luz.
+    text: |
+      Salí con los bolsillos llenos de pan, de vuelta a la oscuridad, tanteando las paredes.
+    options:
+    - Ir hacia Laura
+    - Buscar a alguien vivo
+
+  procurar:
+    variants:
+    - |
+      Golpeé puertas, derribé dos. Solo muertos. En las paredes, el moho ya crecía en capas.
+    text: |
+      Llamé en la plaza. La voz salía ahogada, casi sin sonido, y caía al suelo a un palmo de la boca.
+    options:
+    - Desistir e ir hacia Laura
+    - Seguir buscando
+    - Seguir buscando
+
+  f2_sozinho:
+    text: |
+      Anduve no sé cuánto tiempo. El lodo ya me llegaba a los tobillos.
+      ---
+      Cuando me acordé de Laura, ya no sabía el camino. Ya no sabía bien quién era ella.
+
+  laura_porta:
+    text: |
+      Mis manos reconocieron la reja del jardín de Laura. La casa estaba abierta. Ni un rumor dentro, ni la más leve señal de vida.
+    options:
+    - Abrir la verja con llave
+    - Subir por la ventana
+
+  laura_janela:
+    text: |
+      Trepé por la reja y forcé la ventana. El vidrio se rompió sin ruido.
+      ---
+      Entré como un ladrón en la casa donde tantas veces había entrado feliz.
+
+  laura_encontro:
+    text: |
+      El padre estaba muerto en la cama. La madre, arrodillada ante el oratorio, cayó al tocarla, dura como una estatua.
+      ---
+      Laura estaba fría en su cama. La abracé, llorando. Y sentí que su cabeza se movía sobre mi hombro.
+
+  conversa1:
+    text: |
+      Laura abrió los ojos. No se asustó de la oscuridad. Moviendo apenas los labios, preguntó si la luz y el sonido no volverían nunca.
+    options:
+    - Decir que no sé
+    - Decir que mañana amanece
+
+  conversa2:
+    text: |
+      La voz no salía. Para entendernos, juntábamos las frentes, y el pensamiento pasaba de una a otra. Ella temblaba.
+    options:
+    - Compartir el pan con ella
+    - Comer el pan solo
+    - Abrazarla
+    variants:
+    - |
+      La voz no salía. Junté mi frente con la suya y esperé su pensamiento. No llegó nada. Ella temblaba.
+
+  conversa3:
+    variants:
+    - |
+      Junté mi frente con la suya. No volvió nada. Solo sus ojos, buscando algo en mi cara.
+    - |
+      En el bolsillo, el retrato que yo le había hecho al pastel. Laura lo miró como quien mira un tiempo que ya no vuelve.
+    text: |
+      Frente con frente, Laura preguntó por el retrato que yo le había hecho. Se había quedado en la cabecera de mi cama.
+    options:
+    - Darle el retrato
+    - Recordar cómo empezó
+    - Guardar el retrato
+    - Quedarme callado
+
+  trava:
+    text: |
+      Decidimos morir juntos. Laura pensó en el mar: iríamos abrazados al fondo de las aguas.
+      ---
+      ¿O nos quedaríamos allí, esperando? Junté mi frente con la suya: ¿nos quedamos, o nos vamos?
+    options:
+    - Nos quedamos
+    - Nos quedamos
+    - Nos vamos
+    - Escribimos
+    variants:
+    - |
+      Junté mi frente con la suya y esperé. Nada. ¿Nos quedamos, o nos vamos? Tendría que decidir por los dos.
+
+  briga:
+    text: |
+      ¿Quedarnos allí, con sus muertos? La respuesta llegó contra mi frente: esto es una tumba.
+      ---
+      Laura rezó por toda aquella gente, me pasó el brazo por la cintura, y salimos.
+    variants:
+    - |
+      Laura no respondió. Me tomó de la mano y me llevó hacia la puerta.
+
+  a_oleo:
+    variants:
+    - |
+      Nos quedamos en la sala, entre el piano y el sillón donde un día le confesé mi amor.
+      ---
+      A oscuras, ya no sabía dónde terminaba la sala y dónde empezaba yo.
+    text: |
+      Nos quedamos en la sala, entre el piano y el sillón donde un día le confesé mi amor.
+      ---
+      La llama de la lámpara se encogió hasta ser un punto azul. Y se apagó. Pero habíamos llegado hasta allí con luz.
+
+  a_refeicao:
+    variants:
+    - |
+      A oscuras, compartimos el resto del pan, miga a miga, como en una última cena.
+    text: |
+      Laura encontró unas galletas en la despensa. Comimos sin hambre, solo para tener algo que hacer con las manos.
+    options:
+    - Contarle una historia
+    - Quedarme en silencio
+
+  a_piano:
+    text: |
+      Laura fue al piano y tocó la pieza que más le gustaba. Los martillos golpeaban las cuerdas. No salía ningún sonido.
+      ---
+      Tocó hasta el final, como si yo la oyera.
+
+  a_nome:
+    variants:
+    - |
+      Sentí contra la frente su pensamiento buscar un nombre. Buscar. Y detenerse a medias, como mis hojas.
+    text: |
+      Frente con frente, Laura preguntó cómo se llamaba su madre. Lo sabía. Lo sabía. Era...
+      ---
+      No lo recordaba.
+    options:
+    - Recordarlo por ella
+    - Fingir que no lo noté
+
+  a_ensaio:
+    variants:
+    - |
+      palabras. guardar palabras.
+      mano. luz. laura.
+      laura.
+    - |
+      Empecé a repetir palabras, para no perderlas. Mano. Luz. Laura.
+      ---
+      Laura solo movía los labios, sin sonido, como quien reza.
+    text: |
+      Empezamos a repetir palabras, para no perderlas. Mano. Luz. Ventana. Laura.
+      ---
+      A veces una se escapaba, y la buscábamos a oscuras, como quien busca un botón en el suelo.
+    options:
+    - Tomarle la mano
+    - Tomarle la mano
+
+  fa1_luz:
+    text: |
+      Le tomé la mano. Ella apretó la mía. Aún sabíamos lo que eso quería decir.
+      ---
+      Fue lo último que supimos. Pero lo supimos juntos.
+
+  fa2_silencio:
+    text: |
+      estamos en la sala.
+      ella está cerca.
+      no sé por qué estamos aquí.
+      no sé quién es ella.
+      ella tampoco lo sabe.
+
+  b_oleo:
+    variants:
+    - |
+      Salimos abrazados por la cintura, a oscuras, buscando el mar.
+      ---
+      El suelo ya era lodo. De las paredes nacía moho, y las calles se estrechaban entre dos bosques de verdín.
+    text: |
+      Salimos abrazados por la cintura, buscando el mar. En la esquina, la llama de la lámpara se encogió hasta apagarse.
+      ---
+      El suelo ya era lodo. De las paredes nacía moho, y las calles se estrechaban entre dos bosques de verdín.
+
+  b_bonde:
+    text: |
+      Un tranvía parado en los rieles, lleno. Los pasajeros se habían hundido en los asientos, unos sobre otros, y algo goteaba por los escalones.
+      ---
+      Laura quiso subir a descansar.
+    options:
+    - Seguir con ella al muelle
+    - Arrastrarla sin parar
+
+  b_cais:
+    text: |
+      De pronto, una claridad fosforescente hasta perderse de vista. Era el mar. Muerto. Sin olas, sin sollozos.
+      ---
+      Los cascos de los últimos barcos salían de él, negros, como las cruces de un cementerio abandonado.
+    options:
+    - Seguir por la playa
+    - Seguir por la playa
+    variants:
+    - |
+      Una claridad fosforescente hasta perderse de vista: el mar, muerto, sin olas.
+      ---
+      Junté mi frente con la de Laura para decírselo. No pasó nada.
+
+  b_mata:
+    variants:
+    - |
+      hongos. respiran.
+      ella al lado.
+      andar.
+    - |
+      Por la playa crecían hongos enormes, que respiraban.
+      ---
+      Laura ya no respondía. Solo me apretaba la mano cuando tropezaba.
+    text: |
+      Por la playa crecían hongos enormes, blandos, más altos que nosotros. Se los sentía respirar.
+      ---
+      Andábamos a cuatro patas, olfateando el lodo. Ya no teníamos palabras, solo gruñidos.
+
+  b_gruta:
+    text: |
+      En una gruta, nos detuvimos. Los pies se hundieron en la tierra y no salieron más. Se volvieron raíces, chupando el lodo.
+      ---
+      Laura quedó de pie, junto a mí. Nuestros brazos se enlazaron, duros como ramas.
+
+  fb1_pedra:
+    text: |
+      Fuimos árbol. Después, siglo a siglo, fuimos piedra, abrazados en una sola piedra.
+      ---
+      Y un día la piedra se deshizo. Nos soltamos, y salimos por el cielo, girando uno alrededor del otro, como dos estrellas.
+
+  fb2_mar:
+    text: |
+      Laura me miró como quien mira a una bestia desconocida. Y huyó a cuatro patas por la playa, hacia las tinieblas.
+      ---
+      Corrí tras ella. No la encontré. Ya no recuerdo su rostro.
+
+  c_quarto:
+    variants:
+    - |
+      Escribimos: eso pensé, frente con frente. Laura entendió.
+      ---
+      Volvimos a mi mirador a oscuras, entre los muertos de la pensión. Yo conocía aquella mesa de memoria.
+    text: |
+      Escribimos: eso pensé, frente con frente. Laura entendió.
+      ---
+      Volvimos a mi mirador, entre los muertos de la pensión. El aceite se acabó en lo alto de la escalera. Yo conocía aquella mesa de memoria.
+
+  c_relogio:
+    variants:
+    - |
+      Busqué el reloj y no lo encontré. Laura lo recordó por mí, sin palabras: medianoche.
+    text: |
+      El reloj seguía sobre la mesa. Medianoche. Por ahí tenía que empezar el relato.
+
+  c_ditado:
+    text: |
+      Laura dictaba, con su frente en la mía, y yo escribía. La noche sin fin. La ciudad muda. El mar muerto.
+      ---
+      Con cada página yo perdía algo. Pero lo que iba al papel ya no se perdía.
+    options:
+    - Escribir la última página
+    variants:
+    - |
+      Laura ya no dictaba. Yo escribía lo que leía en sus ojos. La noche sin fin. El mar muerto.
+      ---
+      Con cada página yo perdía algo. Pero lo que iba al papel ya no se perdía.
+
+  c_vela:
+    text: |
+      Cuando llegamos a la última página, la vela de la mesa, que yo había dejado apagada, estaba encendida.
+      ---
+      No sé quién la encendió.
+
+  fc_palavra:
+    variants:
+    - |
+      Dejé la pluma. Por el balcón entraba la primera luz de la mañana, y los chochines cantaban en los tejados.
+      ---
+      En la última hoja, con su letra, una frase que yo no escribí: "Estuvimos aquí."
+    text: |
+      Dejé la pluma. Por el balcón entraba la primera luz de la mañana, y los chochines cantaban en los tejados.
+      ---
+      Junto a la mesa, una docena de capítulos. Era todo lo que había escrito aquella noche de insomnio, esperando el sol.

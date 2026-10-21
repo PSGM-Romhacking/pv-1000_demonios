@@ -1,0 +1,748 @@
+# Demônios: the game script.
+# Adaptation of "Demônios", by Aluísio Azevedo (1893, public domain), in the first
+# person, based on the Wikisource text. It follows the story in its images and events
+# (the boarding house on rua do Riachuelo, the pocket watch, the doctor, Sunday mass,
+# Laura who seems dead, speech that fades, the dead sea, the regression down to stone and
+# the stars) and the rest is the game's invention (apothecary, oil lamp, tram, routes A
+# and C). The ending of route C takes up the original's twist: it was all what he wrote
+# that night. Nothing sexual (chapter IX is left out); the grotesque stays, as in the story.
+#
+# Format: see docs/technical.md (Script format). After editing:  make validate
+
+game:
+  title: DEMÔNIOS
+  subtitle: segundo o conto de Aluísio Azevedo (1893)
+  # the "About the author" screen, opened from the title menu (pages separated by ---)
+  about: |
+    Aluísio Azevedo nasceu em São Luís do Maranhão, em 1857, e morreu em Buenos Aires, em 1913.
+    ---
+    Antes de escritor, foi caricaturista nos jornais do Rio de Janeiro. Com O Mulato (1881) e O Cortiço (1890), tornou-se o maior nome do naturalismo brasileiro.
+    ---
+    Demônios saiu em 1893, num livro de contos. Nele, o autor dos romances de costumes imagina o fim do mundo visto de um quarto de pensão no Rio.
+    ---
+    Foi um dos fundadores da Academia Brasileira de Letras e, a partir de 1895, cônsul do Brasil em vários países.
+  start: quarto
+  humanity: 7
+  bond: 2
+  # humanity reached 0: goes straight to the ending of the current route
+  on_zero: { common: fb2_mar, A: fa2_silencio, B: fb2_mar, C: fc_palavra }
+  # with low humanity, items vanish from the inventory (he forgets what they are for)
+  forget:
+    - { item: RELOGIO, hum_max: 2 }
+    - { item: CHAVE, hum_max: 2 }
+    - { item: RETRATO, hum_max: 1 }
+    - { item: MANUSCRITO, hum_max: 1 }
+  # light: has the oil lamp and the oil has not run out
+  light: { has: LAMPIAO, no_flag: OLEO_ACABOU }
+  # a dark scene without light costs 1 humanity only while this holds; once the
+  # oil runs out, the dark is a fact of the story and the drop comes from the per-act cost
+  dark_costs: { no_flag: OLEO_ACABOU }
+
+# fixed interface texts; each language has its own
+interface:
+  start: Iniciar
+  credits: Péricles S. - 2026
+  continue: Continuar
+  end: Fim
+  end_big: F I M
+  no_exit: (sem saída)
+  inventory: Inventário
+  nothing: (nada)
+  closes: Fire 1 ou 2 fecha
+  pause: Pausa
+  back_to_title: Voltar ao título
+  endings_seen: Finais vistos
+  about: Sobre o autor
+  back: Voltar
+
+# words that vanish from the text with humanity 2 or less (the degrading text; see
+# docs/technical.md (Script format)). Only articles, prepositions and conjunctions: what is left still says
+# what happened
+stopwords: ["o", "a", "os", "as", "um", "uma", "de", "do", "da", "dos", "das",
+                  "em", "no", "na", "nos", "nas", "num", "numa", "ao", "à", "e", "que",
+                  "se", "com", "por", "pelo", "pela", "pelos", "pelas", "para"]
+
+items:            # max. 8
+  RELOGIO: relógio de algibeira
+  MANUSCRITO: manuscrito
+  LAMPIAO: lampião
+  CHAVE: chave de Laura
+  RETRATO: retrato de Laura
+  PAO: pão
+
+flags:            # max. 8
+  - LEMBROU
+  - OLEO_ACABOU
+  - VIU_IGREJA
+  - PAO_REPARTIDO
+  - RETRATO_DADO
+  - ENTROU_PORTA
+  - LAURA_CALOU
+  - BRIGA
+
+endings:           # max. 8
+  F1:  { name: A Vela, type: bad }
+  F2:  { name: Sozinho, type: bad }
+  FA1: { name: Última Luz, type: good }
+  FA2: { name: Silêncio na Sala, type: normal }
+  FB1: { name: A Pedra e a Mão, type: normal }
+  FB2: { name: O Mar Parado, type: bad }
+  FC:  { name: A Última Palavra, type: true_end }
+
+scenes:
+
+  # ================================================================ ACT 1 · THE ROOM
+
+  quarto:
+    act: 1
+    image: quarto
+    light: true
+    on_enter: { gain: [RELOGIO, MANUSCRITO] }
+    text: |
+      Acordei sem saber quanto tinha dormido. Pelas cortinas do mirante não entrava dia nenhum.
+      ---
+      O relógio de algibeira marcava meia-noite. Levei-o ao ouvido: não batia. Dei corda, e ele voltou a pulsar, fraco como um doente.
+    options:
+      - text: Reler o que escrevi ontem
+        if: { no_flag: LEMBROU }
+        goto: lembranca
+      - text: Ir até a janela
+        goto: janela
+
+  lembranca:
+    act: 1
+    image: none
+    light: true
+    on_enter: { flag: [LEMBROU], protect: true }
+    text: |
+      Sobre a mesa, um monte de folhas cobertas com a minha letra. Eu não lembrava de ter escrito nenhuma.
+      ---
+      Falavam de uma noite sem fim, de uma cidade muda, de Laura e de mim perdendo as palavras uma a uma.
+      ---
+      E paravam no meio de uma frase.
+    auto: janela
+
+  janela:
+    act: 1
+    image: janela
+    light: true
+    text: |
+      Abri a varanda. O nascente continuava fechado e negro. As estrelas tinham empalidecido; os lampiões mal se viam.
+      ---
+      Nenhum operário, nenhum carro, nem um cão. Bati no tímpano da mesa: o som saiu abafado, como se o ar pesasse.
+    options:
+      - text: Sair e ver o que houve
+        goto: porta
+      - text: Esperar o dia
+        effect: { add: { ESPERA: 1 } }
+        goto: espera
+
+  espera:
+    act: 1
+    image: quarto
+    light: true
+    variants:
+      - if: { count_min: { ESPERA: 2 } }
+        text: |
+          As estrelas se desmanchavam no céu, como nódoas. A vela minguava. O dia não vinha.
+    text: |
+      Sentei-me na varanda para esperar o sol. Minhas violetas estavam murchas. Já não tinham perfume.
+    options:
+      - text: Esperar mais
+        if: { count_max: { ESPERA: 1 } }
+        effect: { add: { ESPERA: 1 }, hum: -1 }
+        goto: espera
+      - text: Esperar mais
+        if: { count_min: { ESPERA: 2 } }
+        goto: f1_vela
+      - text: Sair e ver o que houve
+        goto: porta
+
+  porta:
+    act: 1
+    image: quarto
+    light: true
+    text: |
+      Já na porta, olhei para trás. À cabeceira da cama, o retrato de Laura que eu tinha feito a pastel, com um laço de fita no cabelo.
+    options:
+      - text: Levar o retrato
+        effect: { gain: [RETRATO] }
+        goto: escada
+      - text: Deixar o retrato
+        goto: escada
+
+  f1_vela:
+    act: 1
+    image: none
+    ending: F1
+    text: |
+      A chama tremeu, encolheu e se apagou, como o último olhar de um moribundo.
+      ---
+      Fiquei no escuro, de pena na mão, esperando um sol que não veio. Ninguém subiu a escada. Ninguém chamou meu nome.
+
+  # ================================================================ ACT 2 · THE DEAD CITY
+
+  escada:
+    act: 2
+    image: escada
+    light: true
+    text: |
+      Desci com a vela. No segundo andar morava um médico. Bati, ninguém respondeu. Arrombei a porta.
+      ---
+      Estava na cama, rígido e frio, de olhos meio abertos. Nas faces, as manchas verdes de quem começa a apodrecer.
+    options:
+      - text: Descer ao saguão
+        goto: saguao
+
+  saguao:
+    act: 2
+    image: escada
+    light: true
+    text: |
+      Em cada quarto, um morto: mães com os filhos no colo, estudantes debruçados nos livros. Do fundo da casa subia um bafo de podridão.
+      ---
+      Na portaria, o porteiro morto ainda segurava a chave que o pai de Laura deixara para mim. Os dedos estavam duros em volta dela.
+    options:
+      - text: Tirar a chave da mão dele
+        effect: { gain: [CHAVE], hum: -1 }
+        goto: rua
+      - text: Deixar a chave
+        goto: rua
+
+  rua:
+    act: 2
+    image: rua
+    dark: true
+    text: |
+      A vela se apagou no primeiro passo. Treva, só treva: nenhum lampião, nenhuma estrela.
+      ---
+      Fui pelas paredes, às apalpadelas. Na esquina, tropecei num corpo encostado à grade de um jardim: um polícia, já frio e mole.
+    options:
+      - text: Ir direto à casa de Laura
+        effect: { bond: +1 }
+        goto: botica
+      - text: Cortar pelo largo da Sé
+        goto: igreja
+
+  igreja:
+    act: 2
+    image: igreja
+    dark: true
+    on_enter: { flag: [VIU_IGREJA], protect: true, bond: -1 }
+    text: |
+      Achei com as mãos a porta da igreja. Foi ali, à saída da missa de um domingo, que vi Laura pela primeira vez. Eu ia ao lado da minha mãe.
+      ---
+      Fiquei tempo demais lembrando. Quando saí, a escuridão parecia mais grossa.
+    options:
+      - text: Seguir até a casa de Laura
+        goto: botica
+
+  botica:
+    act: 2
+    image: botica
+    text: |
+      Na botica, o boticário estava de pé atrás do balcão, de mão estendida, como quem dá o troco.
+      ---
+      Comi o que achei, sem talher, como um bicho. No balcão, o pão da casa e um lampião com a lata de óleo. Não dava para carregar tudo.
+    options:
+      - text: Levar o pão
+        effect: { gain: [PAO] }
+        goto: botica_saida
+      - text: Levar o lampião
+        effect: { gain: [LAMPIAO] }
+        goto: botica_saida
+
+  botica_saida:
+    act: 2
+    image: botica
+    variants:
+      - if: { has: LAMPIAO }
+        text: |
+          Acendi o lampião. A luz era lívida como fogo-fátuo, mas era luz.
+    text: |
+      Saí com os bolsos cheios de pão, de volta ao escuro, tateando as paredes.
+    options:
+      - text: Ir até Laura
+        goto: laura_porta
+      - text: Procurar alguém vivo
+        effect: { add: { PROCURA: 1 }, hum: -1 }
+        goto: procurar
+
+  procurar:
+    act: 2
+    image: rua
+    dark: true
+    variants:
+      - if: { count_min: { PROCURA: 2 } }
+        text: |
+          Bati em portas, arrombei duas. Só mortos. Nas paredes, o bolor já crescia em camadas.
+    text: |
+      Chamei no largo. A voz saía abafada, quase sem som, e caía no chão a um palmo da boca.
+    options:
+      - text: Desistir e ir até Laura
+        goto: laura_porta
+      - text: Continuar procurando
+        if: { count_max: { PROCURA: 1 } }
+        effect: { add: { PROCURA: 1 }, hum: -1 }
+        goto: procurar
+      - text: Continuar procurando
+        if: { count_min: { PROCURA: 2 } }
+        goto: f2_sozinho
+
+  f2_sozinho:
+    act: 2
+    image: rua
+    ending: F2
+    text: |
+      Andei não sei quanto tempo. O lodo já me subia pelos tornozelos.
+      ---
+      Quando lembrei de Laura, não sabia mais o caminho. Não sabia direito quem ela era.
+
+  # ================================================================ ACT 3 · LAURA
+
+  laura_porta:
+    act: 3
+    image: laura_casa
+    on_enter: { hum: -1 }
+    text: |
+      Minhas mãos reconheceram as grades do jardim de Laura. A casa estava aberta. Nem um rumor lá dentro, nem o mais leve sinal de vida.
+    options:
+      - text: Abrir o portão com a chave
+        if: { has: CHAVE }
+        effect: { bond: +1, flag: [ENTROU_PORTA] }
+        goto: laura_encontro
+      - text: Subir pela janela
+        effect: { bond: -1 }
+        goto: laura_janela
+
+  laura_janela:
+    act: 3
+    image: laura_casa
+    text: |
+      Subi pela grade e forcei a janela. O vidro partiu sem barulho.
+      ---
+      Entrei como um ladrão na casa onde tantas vezes tinha entrado feliz.
+    auto: laura_encontro
+
+  laura_encontro:
+    act: 3
+    image: laura
+    text: |
+      O pai estava morto na cama. A mãe, ajoelhada no oratório, tombou ao meu toque, dura como uma estátua.
+      ---
+      Laura estava fria na cama dela. Abracei-a, chorando. E senti a cabeça dela se mover no meu ombro.
+    auto: conversa1
+
+  conversa1:
+    act: 3
+    image: laura
+    text: |
+      Laura abriu os olhos. Não se assustou com o escuro. Mal movendo os lábios, perguntou se a luz e o som nunca mais voltariam.
+    options:
+      - text: Dizer que não sei
+        effect: { bond: +1 }
+        goto: conversa2
+      - text: Dizer que amanhã amanhece
+        effect: { bond: -1 }
+        goto: conversa2
+
+  conversa2:
+    act: 3
+    image: laura
+    variants:
+      - if: { bond_max: 2 }               # low bond: Laura falls silent before the narrator
+        effect: { flag: [LAURA_CALOU] }
+        text: |
+          A voz não saía. Encostei a testa na dela e esperei o pensamento dela. Não veio nada. Ela tremia.
+    text: |
+      A voz não saía. Para nos entendermos, encostávamos as testas, e o pensamento passava de uma para a outra. Ela tremia.
+    options:
+      - text: Repartir o pão com ela
+        if: { has: PAO }
+        effect: { lose: [PAO], bond: +1, protect: true, flag: [PAO_REPARTIDO] }
+        goto: conversa3
+      - text: Comer o pão sozinho
+        if: { has: PAO }
+        effect: { lose: [PAO], bond: -1 }
+        goto: conversa3
+      - text: Abraçá-la
+        goto: conversa3
+
+  conversa3:
+    act: 3
+    image: laura
+    variants:
+      - if: { flag: LAURA_CALOU }
+        text: |
+          Encostei a testa na dela. Nada voltou. Só os olhos dela, procurando alguma coisa no meu rosto.
+      - if: { has: RETRATO }
+        text: |
+          No bolso, o retrato que eu tinha feito dela a pastel. Laura o olhou como quem olha um tempo que não volta mais.
+    text: |
+      Testa contra testa, Laura perguntou pelo retrato que eu tinha feito dela. Ficara à cabeceira da minha cama.
+    options:
+      - text: Dar o retrato a ela
+        if: { has: RETRATO }
+        effect: { lose: [RETRATO], bond: +2, flag: [RETRATO_DADO] }
+        goto: trava
+      - text: Lembrar de como começou
+        effect: { bond: +1, protect: true }
+        goto: trava
+      - text: Guardar o retrato
+        if: { has: RETRATO }
+        goto: trava
+      - text: Ficar calado
+        if: { lacks: RETRATO }
+        goto: trava
+
+  trava:
+    act: 3
+    image: laura
+    variants:
+      - if: { flag: LAURA_CALOU }
+        text: |
+          Encostei a testa na dela e esperei. Nada. Ficamos, ou vamos? Eu teria de decidir pelos dois.
+    text: |
+      Resolvemos morrer juntos. Laura pensou no mar: iríamos abraçados para o fundo das águas.
+      ---
+      Ou ficaríamos ali, esperando? Encostei a testa na dela: ficamos, ou vamos?
+    options:
+      - text: Ficamos
+        if: { bond_min: 5 }
+        goto: a_oleo
+      - text: Ficamos
+        else: true
+        effect: { flag: [BRIGA] }
+        goto: briga
+      - text: Vamos
+        goto: b_oleo
+      - text: Escrevemos
+        if: { flag: LEMBROU, bond_min: 5, hum_min: 4 }
+        goto: c_quarto
+
+  briga:
+    act: 3
+    image: laura
+    variants:
+      - if: { flag: LAURA_CALOU }
+        text: |
+          Laura não respondeu. Pegou minha mão e me puxou para a porta.
+    text: |
+      Ficar ali, com os mortos dela? A resposta veio contra a minha testa: isto é um túmulo.
+      ---
+      Laura rezou por toda aquela gente, passou o braço na minha cintura, e saímos.
+    auto: b_oleo
+
+  # ================================================================ ROUTE A · THE WAIT
+
+  a_oleo:
+    act: 4
+    route: A
+    image: sala
+    on_enter: { flag: [OLEO_ACABOU] }
+    variants:
+      - if: { lacks: LAMPIAO }
+        effect: { hum: -1 }
+        text: |
+          Ficamos na sala, entre o piano e a poltrona onde um dia eu lhe confessei meu amor.
+          ---
+          No escuro, eu já não sabia onde a sala terminava e onde eu começava.
+    text: |
+      Ficamos na sala, entre o piano e a poltrona onde um dia eu lhe confessei meu amor.
+      ---
+      A chama do lampião encolheu até virar um ponto azul. E sumiu. Mas tínhamos chegado até ali com luz.
+    auto: a_refeicao
+
+  a_refeicao:
+    act: 4
+    route: A
+    image: sala
+    dark: true
+    variants:
+      - if: { flag: PAO_REPARTIDO }
+        text: |
+          No escuro, repartimos o resto do pão, migalha por migalha, como numa ceia.
+    text: |
+      Laura achou na despensa umas bolachas. Comemos sem fome, só para ter o que fazer com as mãos.
+    options:
+      - text: Contar uma história a ela
+        effect: { protect: true, bond: +1 }
+        goto: a_piano
+      - text: Ficar em silêncio
+        effect: { hum: -1 }
+        goto: a_piano
+
+  a_piano:
+    act: 4
+    route: A
+    image: sala
+    dark: true
+    text: |
+      Laura foi ao piano e tocou a peça de que mais gostava. Os martelos batiam nas cordas. Não saía som nenhum.
+      ---
+      Ela tocou até o fim, como se eu ouvisse.
+    auto: a_nome
+
+  a_nome:
+    act: 5
+    route: A
+    image: sala
+    dark: true
+    on_enter: { hum: -1 }
+    variants:
+      - if: { bond_max: 5 }
+        effect: { flag: [LAURA_CALOU] }
+        text: |
+          Senti contra a testa o pensamento dela procurar um nome. Procurar. E parar no meio, como as minhas folhas.
+    text: |
+      Testa contra testa, Laura perguntou como se chamava a mãe dela. Ela sabia. Sabia. Era...
+      ---
+      Ela não lembrava.
+    options:
+      - text: Lembrar por ela
+        effect: { protect: true, bond: +1 }
+        goto: a_ensaio
+      - text: Fingir que não notei
+        effect: { bond: -1 }
+        goto: a_ensaio
+
+  a_ensaio:
+    act: 5
+    route: A
+    image: sala
+    dark: true
+    variants:
+      - if: { hum_max: 2 }
+        text: |
+          palavras. guardar palavras.
+          mão. luz. laura.
+          laura.
+      - if: { flag: LAURA_CALOU }
+        text: |
+          Comecei a repetir palavras, para não perdê-las. Mão. Luz. Laura.
+          ---
+          Laura só movia os lábios, sem som, como quem reza.
+    text: |
+      Começamos a repetir palavras, para não perdê-las. Mão. Luz. Janela. Laura.
+      ---
+      Às vezes uma fugia, e ficávamos procurando no escuro, como quem procura um botão no chão.
+    options:
+      - text: Segurar a mão dela
+        if: { bond_min: 6, hum_min: 3 }
+        goto: fa1_luz
+      - text: Segurar a mão dela
+        else: true
+        goto: fa2_silencio
+
+  fa1_luz:
+    act: 5
+    route: A
+    image: maos
+    ending: FA1
+    text: |
+      Segurei a mão dela. Ela apertou a minha. Ainda sabíamos o que aquilo queria dizer.
+      ---
+      Foi a última coisa que soubemos. Mas soubemos juntos.
+
+  fa2_silencio:
+    act: 5
+    route: A
+    image: sala
+    ending: FA2
+    text: |
+      estamos na sala.
+      ela está perto.
+      não sei por que estamos aqui.
+      não sei quem é ela.
+      ela também não sabe.
+
+  # ================================================================ ROUTE B · THE SEARCH
+
+  b_oleo:
+    act: 4
+    route: B
+    image: rua
+    on_enter: { flag: [OLEO_ACABOU] }
+    variants:
+      - if: { lacks: LAMPIAO }
+        effect: { hum: -1 }
+        text: |
+          Saímos abraçados pela cintura, no escuro, procurando o mar.
+          ---
+          O chão já era lodo. Das paredes nascia bolor, e as ruas se estreitavam entre duas matas de mofo.
+    text: |
+      Saímos abraçados pela cintura, procurando o mar. Na esquina, a chama do lampião encolheu até sumir.
+      ---
+      O chão já era lodo. Das paredes nascia bolor, e as ruas se estreitavam entre duas matas de mofo.
+    auto: b_bonde
+
+  b_bonde:
+    act: 4
+    route: B
+    image: bonde
+    dark: true
+    text: |
+      Um bonde parado nos trilhos, cheio. Os passageiros tinham afundado nos bancos, uns sobre os outros, e escorria alguma coisa pelos degraus.
+      ---
+      Laura quis subir para descansar.
+    options:
+      - text: Seguir com ela para o cais
+        goto: b_cais
+      - text: Puxá-la, sem parar
+        effect: { bond: -2 }
+        goto: b_cais
+
+  b_cais:
+    act: 5
+    route: B
+    image: cais
+    dark: true
+    on_enter: { hum: -1 }
+    variants:
+      - if: { bond_max: 3 }               # low bond: Laura falls silent
+        effect: { flag: [LAURA_CALOU] }
+        text: |
+          Uma claridade fosforescente a perder de vista: o mar, morto, sem ondas.
+          ---
+          Encostei a testa na de Laura para lhe dizer. Não passou nada.
+    text: |
+      De repente, uma claridade fosforescente a perder de vista. Era o mar. Morto. Sem ondas, sem soluços.
+      ---
+      Os cascos dos últimos navios saíam dele, negros, como as cruzes de um cemitério abandonado.
+    options:
+      - text: Seguir pela praia
+        if: { bond_min: 3 }
+        goto: b_mata
+      - text: Seguir pela praia
+        else: true
+        goto: fb2_mar
+
+  b_mata:
+    act: 5
+    route: B
+    image: mata
+    dark: true
+    variants:
+      - if: { hum_max: 2 }
+        text: |
+          cogumelos. respiram.
+          ela do lado.
+          andar.
+      - if: { flag: LAURA_CALOU }
+        text: |
+          Pela praia cresciam cogumelos enormes, que respiravam.
+          ---
+          Laura já não respondia. Só apertava minha mão quando tropeçava.
+    text: |
+      Pela praia cresciam cogumelos enormes, moles, maiores que nós. Dava para senti-los respirar.
+      ---
+      Andávamos de quatro, farejando o lodo. Já não tínhamos palavras, só grunhidos.
+    auto: b_gruta
+
+  b_gruta:
+    act: 5
+    route: B
+    image: gruta
+    dark: true
+    text: |
+      Numa gruta, paramos. Os pés entraram na terra e não saíram mais. Viraram raízes, chupando o lodo.
+      ---
+      Laura ficou de pé, rente a mim. Nossos braços se enlaçaram, duros como galhos.
+    auto: fb1_pedra
+
+  fb1_pedra:
+    act: 5
+    route: B
+    image: gruta
+    ending: FB1
+    text: |
+      Fomos árvore. Depois, século a século, fomos pedra, abraçados numa pedra só.
+      ---
+      E um dia a pedra se desfez. Soltamo-nos, e saímos pelo céu, girando um em volta do outro, como duas estrelas.
+
+  fb2_mar:
+    act: 5
+    route: B
+    image: cais
+    ending: FB2
+    text: |
+      Laura me olhou como quem olha um bicho desconhecido. E fugiu de quatro pela praia, para o lado da treva.
+      ---
+      Corri atrás. Não a achei. Já não lembro do rosto dela.
+
+  # ================================================================ ROUTE C · THE ACCOUNT
+
+  c_quarto:
+    act: 4
+    route: C
+    image: quarto
+    on_enter: { flag: [OLEO_ACABOU] }
+    variants:
+      - if: { lacks: LAMPIAO }
+        text: |
+          Escrevemos: foi o que pensei, testa contra testa. Laura entendeu.
+          ---
+          Voltamos ao meu mirante no escuro, entre os mortos da pensão. Eu conhecia aquela mesa de cor.
+    text: |
+      Escrevemos: foi o que pensei, testa contra testa. Laura entendeu.
+      ---
+      Voltamos ao meu mirante, entre os mortos da pensão. O óleo acabou no alto da escada. Eu conhecia aquela mesa de cor.
+    auto: c_relogio
+
+  c_relogio:
+    act: 4
+    route: C
+    image: quarto
+    variants:
+      - if: { lacks: RELOGIO }
+        text: |
+          Procurei o relógio e não achei. Laura lembrou por mim, sem palavras: meia-noite.
+    text: |
+      O relógio continuava na mesa. Meia-noite. Era por aí que o relato tinha de começar.
+    auto: c_ditado
+
+  c_ditado:
+    act: 5
+    route: C
+    image: quarto
+    variants:
+      - if: { flag: LAURA_CALOU }
+        text: |
+          Laura já não ditava. Eu escrevia o que lia nos olhos dela. A noite sem fim. O mar morto.
+          ---
+          A cada página, eu perdia alguma coisa. Mas o que ia para o papel não se perdia mais.
+    text: |
+      Laura ditava, com a testa na minha, e eu escrevia. A noite sem fim. A cidade muda. O mar morto.
+      ---
+      A cada página, eu perdia alguma coisa. Mas o que ia para o papel não se perdia mais.
+    options:
+      - text: Escrever a última página
+        goto: c_vela
+
+  c_vela:
+    act: 5
+    route: C
+    image: quarto
+    light: true
+    text: |
+      Quando chegamos à última página, a vela da mesa, que eu tinha deixado apagada, estava acesa.
+      ---
+      Não sei quem a acendeu.
+    auto: fc_palavra
+
+  fc_palavra:
+    act: 5
+    route: C
+    image: manuscrito
+    light: true
+    ending: FC
+    variants:
+      - if: { bond_min: 7 }
+        text: |
+          Larguei a pena. Pela varanda entrava a primeira luz da manhã, e as cambaxirras cantavam nos telhados.
+          ---
+          Na última folha, com a letra dela, uma frase que eu não escrevi: "Nós estivemos aqui."
+    text: |
+      Larguei a pena. Pela varanda entrava a primeira luz da manhã, e as cambaxirras cantavam nos telhados.
+      ---
+      Ao lado da mesa, uma dúzia de capítulos. Era tudo o que eu tinha escrito naquela noite de insônia, esperando o sol.

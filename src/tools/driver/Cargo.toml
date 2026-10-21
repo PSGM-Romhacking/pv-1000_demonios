@@ -1,0 +1,14 @@
+[package]
+name = "rom_driver"
+version = "0.1.0"
+edition = "2021"
+description = "Runs the ROM on the Mil Capivaras core following a script of button presses and prints the RAM state"
+
+[dependencies]
+pv1000-core = { path = "../../../../mil_capivaras/crates/core" }
+
+# iz80 with the corrected cycle counts, same as the emulator's
+[patch.crates-io]
+iz80 = { path = "../../../../mil_capivaras/vendor/iz80" }
+
+[workspace]

@@ -1,0 +1,431 @@
+# Demônios: English text. Only the text: scenes, conditions and effects live in
+# demonios.yaml (see src/tools/languages.py). Options: at most 26 columns.
+
+game:
+  title: DEMÔNIOS
+  subtitle: after the story by Aluísio Azevedo (1893)
+  about: |
+    Aluísio Azevedo was born in São Luís, in northern Brazil, in 1857, and died in Buenos Aires in 1913.
+    ---
+    Before becoming a writer, he drew caricatures for the newspapers of Rio de Janeiro. With O Mulato (1881) and O Cortiço (1890), he became the leading name of Brazilian naturalism.
+    ---
+    Demônios came out in 1893, in a book of short stories. In it, the author of novels of manners imagines the end of the world seen from a boarding-house room in Rio.
+    ---
+    He was one of the founders of the Brazilian Academy of Letters and, from 1895, served as Brazil's consul in several countries.
+
+interface:
+  start: Start
+  credits: Péricles S. - 2026
+  continue: Continue
+  end: The end
+  end_big: T H E   E N D
+  no_exit: (no way out)
+  inventory: Inventory
+  nothing: (nothing)
+  closes: Fire 1 or 2 closes
+  pause: Pause
+  back_to_title: Back to title
+  endings_seen: Endings seen
+  about: About the author
+  back: Back
+
+stopwords: ["the", "a", "an", "of", "to", "in", "on", "at", "and", "that", "with", "for", "by", "from", "as", "it", "its", "was"]
+
+items:
+  RELOGIO: pocket watch
+  MANUSCRITO: manuscript
+  LAMPIAO: oil lamp
+  CHAVE: Laura's key
+  RETRATO: Laura's portrait
+  PAO: bread
+
+endings:
+  F1: The Candle
+  F2: Alone
+  FA1: Last Light
+  FA2: Silence in the Room
+  FB1: The Stone and the Hand
+  FB2: The Still Sea
+  FC: The Last Word
+
+scenes:
+
+  quarto:
+    text: |
+      I woke without knowing how long I had slept. No daylight came through the curtains of my lookout room.
+      ---
+      My pocket watch said midnight. I held it to my ear: it had stopped. I wound it, and it beat again, faint as a sick man.
+    options:
+    - Reread what I wrote
+    - Go to the window
+
+  lembranca:
+    text: |
+      On the desk lay a pile of pages covered in my handwriting. I did not remember writing any of them.
+      ---
+      They told of an endless night, a silent city, and Laura and me losing our words one by one.
+      ---
+      And they stopped in the middle of a sentence.
+
+  janela:
+    text: |
+      I opened the balcony. The east was still shut and black. The stars had paled; the street lamps barely showed.
+      ---
+      No worker, no carriage, not even a dog. I struck the bell on my desk: the sound came out muffled, as if the air were heavy.
+    options:
+    - Go out and see
+    - Wait for the day
+
+  espera:
+    variants:
+    - |
+      The stars were melting in the sky like stains. The candle shrank. The day did not come.
+    text: |
+      I sat on the balcony to wait for the sun. My violets had withered. They had lost their scent.
+    options:
+    - Wait longer
+    - Wait longer
+    - Go out and see
+
+  porta:
+    text: |
+      At the door I looked back. At the head of the bed hung the pastel portrait I had made of Laura, a ribbon in her hair.
+    options:
+    - Take the portrait
+    - Leave the portrait
+
+  f1_vela:
+    text: |
+      The flame trembled, shrank and went out, like the last look of a dying man.
+      ---
+      I stayed in the dark, pen in hand, waiting for a sun that never came. No one climbed the stairs. No one called my name.
+
+  escada:
+    text: |
+      I went down with the candle. A doctor lived on the second floor. I knocked; no answer. I forced the door.
+      ---
+      He lay in bed, stiff and cold, his eyes half open. On his cheeks, the green stains of a body starting to rot.
+    options:
+    - Go down to the hall
+
+  saguao:
+    text: |
+      In every room, a dead body: mothers with children in their laps, students slumped over their books. A stench of decay rose from the back of the house.
+      ---
+      At the front desk, the dead porter still held the key Laura's father had left for me. His fingers were stiff around it.
+    options:
+    - Pry the key from his hand
+    - Leave the key
+
+  rua:
+    text: |
+      The candle went out at my first step. Darkness, only darkness: no lamp, no star.
+      ---
+      I felt my way along the walls. At the corner I tripped over a body slumped against a garden railing: a policeman, already cold and limp.
+    options:
+    - Go straight to Laura's
+    - Cut through the square
+
+  igreja:
+    text: |
+      My hands found the church door. It was here, leaving Mass one Sunday, that I first saw Laura. I was walking beside my mother.
+      ---
+      I stayed too long remembering. When I left, the darkness seemed thicker.
+    options:
+    - Go on to Laura's house
+
+  botica:
+    text: |
+      In the apothecary, the apothecary stood behind the counter, hand held out, as if giving change.
+      ---
+      I ate whatever I found, with my hands, like an animal. On the counter, the shop's bread and an oil lamp with its can. I could not carry it all.
+    options:
+    - Take the bread
+    - Take the oil lamp
+
+  botica_saida:
+    variants:
+    - |
+      I lit the lamp. The light was livid like a will-o'-the-wisp, but it was light.
+    text: |
+      I went out with my pockets full of bread, back into the dark, feeling along the walls.
+    options:
+    - Go to Laura
+    - Look for someone alive
+
+  procurar:
+    variants:
+    - |
+      I knocked on doors and broke two down. Only the dead. Mold was already growing in layers on the walls.
+    text: |
+      I called out in the square. My voice came out muffled, almost soundless, and fell to the ground a hand's width from my mouth.
+    options:
+    - Give up and go to Laura
+    - Keep searching
+    - Keep searching
+
+  f2_sozinho:
+    text: |
+      I walked for I do not know how long. The mud already reached my ankles.
+      ---
+      When I remembered Laura, I no longer knew the way. I no longer knew quite who she was.
+
+  laura_porta:
+    text: |
+      My hands recognized the railings of Laura's garden. The house was open. Not a sound inside, not the faintest sign of life.
+    options:
+    - Open the gate with the key
+    - Climb in the window
+
+  laura_janela:
+    text: |
+      I climbed the railing and forced the window. The glass broke without a sound.
+      ---
+      I came in like a thief to the house I had entered so often, happy.
+
+  laura_encontro:
+    text: |
+      Her father lay dead in bed. Her mother, kneeling at the little altar, toppled at my touch, stiff as a statue.
+      ---
+      Laura lay cold in her bed. I held her, weeping. And I felt her head move on my shoulder.
+
+  conversa1:
+    text: |
+      Laura opened her eyes. The dark did not frighten her. Barely moving her lips, she asked if light and sound would ever come back.
+    options:
+    - Say I don't know
+    - Say dawn comes tomorrow
+
+  conversa2:
+    text: |
+      Our voices would not come. To understand each other we pressed our foreheads together, and thought passed from one to the other. She was trembling.
+    options:
+    - Share the bread with her
+    - Eat the bread alone
+    - Hold her
+    variants:
+    - |
+      Our voices would not come. I pressed my forehead to hers and waited for her thought. Nothing came. She was trembling.
+
+  conversa3:
+    variants:
+    - |
+      I pressed my forehead to hers. Nothing came back. Only her eyes, searching my face for something.
+    - |
+      In my pocket, the pastel portrait I had made of her. Laura looked at it the way one looks at a time that will never return.
+    text: |
+      Forehead to forehead, Laura asked about the portrait I had made of her. It had stayed at the head of my bed.
+    options:
+    - Give her the portrait
+    - Remember how it began
+    - Keep the portrait
+    - Say nothing
+
+  trava:
+    text: |
+      We decided to die together. Laura thought of the sea: we would go into the deep water, holding each other.
+      ---
+      Or would we stay there, waiting? I pressed my forehead to hers: do we stay, or go?
+    options:
+    - We stay
+    - We stay
+    - We go
+    - We write
+    variants:
+    - |
+      I pressed my forehead to hers and waited. Nothing. Do we stay, or go? I would have to decide for us both.
+
+  briga:
+    text: |
+      Stay there, with her dead? The answer came against my forehead: this is a tomb.
+      ---
+      Laura prayed for all those people, put her arm around my waist, and we went out.
+    variants:
+    - |
+      Laura did not answer. She took my hand and pulled me to the door.
+
+  a_oleo:
+    variants:
+    - |
+      We stayed in the parlor, between the piano and the armchair where I once confessed my love to her.
+      ---
+      In the dark, I no longer knew where the room ended and I began.
+    text: |
+      We stayed in the parlor, between the piano and the armchair where I once confessed my love to her.
+      ---
+      The lamp's flame shrank to a blue dot. Then it was gone. But we had made it this far with light.
+
+  a_refeicao:
+    variants:
+    - |
+      In the dark we shared the rest of the bread, crumb by crumb, as at a last supper.
+    text: |
+      Laura found some biscuits in the pantry. We ate without hunger, just to give our hands something to do.
+    options:
+    - Tell her a story
+    - Stay silent
+
+  a_piano:
+    text: |
+      Laura went to the piano and played the piece she loved most. The hammers struck the strings. No sound came out.
+      ---
+      She played to the end, as if I could hear.
+
+  a_nome:
+    variants:
+    - |
+      Against my forehead I felt her thought search for a name. Search. And stop halfway, like my pages.
+    text: |
+      Forehead to forehead, Laura asked what her mother's name had been. She knew it. She knew. It was...
+      ---
+      She could not remember.
+    options:
+    - Remember it for her
+    - Pretend I didn't notice
+
+  a_ensaio:
+    variants:
+    - |
+      words. keep words.
+      hand. light. laura.
+      laura.
+    - |
+      I began repeating words so as not to lose them. Hand. Light. Laura.
+      ---
+      Laura only moved her lips, without sound, like someone praying.
+    text: |
+      We began repeating words so as not to lose them. Hand. Light. Window. Laura.
+      ---
+      Sometimes one slipped away, and we searched for it in the dark, like someone looking for a button on the floor.
+    options:
+    - Hold her hand
+    - Hold her hand
+
+  fa1_luz:
+    text: |
+      I held her hand. She squeezed mine. We still knew what that meant.
+      ---
+      It was the last thing we knew. But we knew it together.
+
+  fa2_silencio:
+    text: |
+      we are in the room.
+      she is near.
+      i do not know why we are here.
+      i do not know who she is.
+      she does not know either.
+
+  b_oleo:
+    variants:
+    - |
+      We went out with our arms around each other's waists, in the dark, looking for the sea.
+      ---
+      The ground was already mud. Mold grew from the walls, and the streets narrowed between two forests of mildew.
+    text: |
+      We went out with our arms around each other's waists, looking for the sea. At the corner, the lamp's flame shrank until it was gone.
+      ---
+      The ground was already mud. Mold grew from the walls, and the streets narrowed between two forests of mildew.
+
+  b_bonde:
+    text: |
+      A streetcar stood on the tracks, full. The passengers had sunk into the seats, one on top of another, and something was dripping down the steps.
+      ---
+      Laura wanted to climb in and rest.
+    options:
+    - Go on with her to the pier
+    - Pull her along, no stops
+
+  b_cais:
+    text: |
+      Suddenly, a phosphorescent glow as far as the eye could see. It was the sea. Dead. No waves, no sighs.
+      ---
+      The hulls of the last ships rose from it, black, like the crosses of an abandoned cemetery.
+    options:
+    - Follow the beach
+    - Follow the beach
+    variants:
+    - |
+      A phosphorescent glow as far as the eye could see: the sea, dead, without waves.
+      ---
+      I pressed my forehead to Laura's to tell her. Nothing passed.
+
+  b_mata:
+    variants:
+    - |
+      mushrooms. breathing.
+      she is beside me.
+      walk.
+    - |
+      Huge mushrooms grew along the beach, breathing.
+      ---
+      Laura no longer answered. She only squeezed my hand when she stumbled.
+    text: |
+      Huge mushrooms grew along the beach, soft, taller than us. We could feel them breathing.
+      ---
+      We went on all fours, sniffing the mud. We had no words left, only grunts.
+
+  b_gruta:
+    text: |
+      In a cave, we stopped. Our feet sank into the earth and did not come out. They became roots, sucking at the mud.
+      ---
+      Laura stood close to me. Our arms intertwined, hard as branches.
+
+  fb1_pedra:
+    text: |
+      We became a tree. Then, century by century, we became stone, holding each other in a single stone.
+      ---
+      And one day the stone crumbled. We let go, and rose into the sky, circling each other like two stars.
+
+  fb2_mar:
+    text: |
+      Laura looked at me as one looks at an unknown beast. And she fled along the beach on all fours, toward the dark.
+      ---
+      I ran after her. I did not find her. I no longer remember her face.
+
+  c_quarto:
+    variants:
+    - |
+      We write: that was my thought, forehead to forehead. Laura understood.
+      ---
+      We went back to my lookout room in the dark, among the dead of the boarding house. I knew that desk by heart.
+    text: |
+      We write: that was my thought, forehead to forehead. Laura understood.
+      ---
+      We went back to my lookout room, among the dead of the boarding house. The oil ran out at the top of the stairs. I knew that desk by heart.
+
+  c_relogio:
+    variants:
+    - |
+      I looked for the watch and could not find it. Laura remembered for me, without words: midnight.
+    text: |
+      The watch was still on the desk. Midnight. That was where the account had to begin.
+
+  c_ditado:
+    text: |
+      Laura dictated, her forehead against mine, and I wrote. The endless night. The silent city. The dead sea.
+      ---
+      With every page I lost something. But what went onto the paper was not lost anymore.
+    options:
+    - Write the last page
+    variants:
+    - |
+      Laura no longer dictated. I wrote what I read in her eyes. The endless night. The dead sea.
+      ---
+      With every page I lost something. But what went onto the paper was not lost anymore.
+
+  c_vela:
+    text: |
+      When we reached the last page, the candle on the desk, which I had left unlit, was burning.
+      ---
+      I do not know who lit it.
+
+  fc_palavra:
+    variants:
+    - |
+      I put down the pen. The first light of morning came in from the balcony, and the wrens were singing on the rooftops.
+      ---
+      On the last page, in her handwriting, a sentence I did not write: "We were here."
+    text: |
+      I put down the pen. The first light of morning came in from the balcony, and the wrens were singing on the rooftops.
+      ---
+      Beside the desk, a dozen chapters. It was all I had written that sleepless night, waiting for the sun.
